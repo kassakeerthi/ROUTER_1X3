@@ -1,5 +1,3 @@
-#Makefile for UVM Testbench - Lab 10
-
 # SIMULATOR = Questa for Mentor's Questasim
 # SIMULATOR = VCS for Synopsys's VCS
 
@@ -27,15 +25,17 @@ help:
 	@echo "! USAGE   	--  make target                  								!"
 	@echo "! clean   	=>  clean the earlier log and intermediate files.  						!"
 	@echo "! sv_cmp    	=>  Create library and compile the code.           						!"
-	@echo "! run_test	=>  clean, compile & run the simulation for ram_signle_adddr_test in batch mode.		!" 
-	@echo "! run_test1	=>  clean, compile & run the simulation for ram_ten_addr_test in batch mode.			!" 
-	@echo "! run_test2	=>  clean, compile & run the simulation for ram_odd_addr_test in batch mode.			!"
-	@echo "! run_test3	=>  clean, compile & run the simulation for ram_even_addr_test in batch mode.			!" 
+	@echo "! run_test	=>  clean, compile & run the simulation for base_test in batch mode.		!" 
+	@echo "! run_test1	=>  clean, compile & run the simulation for short_test in batch mode.			!" 
+	@echo "! run_test2	=>  clean, compile & run the simulation for medium_test in batch mode.			!"
+	@echo "! run_test3	=>  clean, compile & run the simulation for large_test in batch mode.			!" 
+	@echo "! run_test4	=>  clean, compile & run the simulation for large_less in batch mode.			!" 
   
-	@echo "! view_wave1 =>  To view the waveform of ram_signle_addr_test	    						!" 
-	@echo "! view_wave2 =>  To view the waveform of ram_ten_addr_test	    						!" 
-	@echo "! view_wave3 =>  To view the waveform of ram_odd_addr_test 	  						!" 
-	@echo "! view_wave4 =>  To view the waveform of ram_even_addr_test    							!" 
+	@echo "! view_wave1 =>  To view the waveform of base_test	    						!" 
+	@echo "! view_wave2 =>  To view the waveform of short_test	    						!" 
+	@echo "! view_wave3 =>  To view the waveform of medium_test 	  						!" 
+	@echo "! view_wave4 =>  To view the waveform of large_test    							!" 
+	@echo "! view_wave5 =>  To view the waveform of large_less    							!" 
   
 	@echo "! regress    =>  clean, compile and run all testcases in batch mode.		    				!"
 	@echo "! report     =>  To merge coverage reports for all testcases and  convert to html format.			!"
@@ -135,10 +135,6 @@ run_test2_VCS:
 run_test3_VCS:	
 	./simv -a vcs.log +fsdbfile+wave4.fsdb -cm_dir ./mem_cov4 +ntb_random_seed_automatic +UVM_TESTNAME=large_test 
 	urg -dir mem_cov4.vdb -format both -report urgReport4
-
-run_test4_VCS:	
-	./simv -a vcs.log +fsdbfile+wave4.fsdb -cm_dir ./mem_cov4 +ntb_random_seed_automatic +UVM_TESTNAME=large_less 
-	urg -dir mem_cov5.vdb -format both -report urgReport5
 	
 view_wave1_VCS: 
 	verdi -ssf wave1.fsdb
@@ -150,15 +146,12 @@ view_wave3_VCS:
 	verdi -ssf wave3.fsdb
 
 view_wave4_VCS: 
-	verdi -ssf wave4.fsdb
-
-view_wave5_VCS: 
-	verdi -ssf wave5.fsdb
+	verdi -ssf wave4.fsdb		
 	
 report_VCS:
-	urg -dir mem_cov1.vdb mem_cov2.vdb mem_cov3.vdb mem_cov4.vdb mem_cov5.vdb -dbname merged_dir/merged_test -format both -report urgReport
+	urg -dir mem_cov1.vdb mem_cov2.vdb mem_cov3.vdb mem_cov4.vdb -dbname merged_dir/merged_test -format both -report urgReport
 
-regress_VCS: clean_VCS sv_cmp_VCS run_test_VCS run_test1_VCS run_test2_VCS run_test3_VCS run_test4_VCS report_VCS
+regress_VCS: clean_VCS sv_cmp_VCS run_test_VCS run_test1_VCS run_test2_VCS run_test3_VCS report_VCS
 
 cov_VCS:
 	verdi -cov -covdir merged_dir.vdb
@@ -168,5 +161,4 @@ clean_VCS:
 	clear
 
 # ----------------------------- END of Definitions for Synopsys's VCS Specific Targets -------------------------------#
-
 
